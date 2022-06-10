@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag Mqtt2InfluxDb:$(date +%s)
+      run: docker build . --file Dockerfile --tag mqtt2InfluxDb:$(date +%s)
