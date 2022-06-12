@@ -17,7 +17,7 @@ namespace Mqtt2InfluxDb
             Console.WriteLine("Starting Mqtt2InfluxDb");
             
             IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("config/appsettings.json")
                 .Build();
 
             var mqttFactory = new MqttFactory();
