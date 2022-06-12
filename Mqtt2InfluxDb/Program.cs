@@ -21,6 +21,9 @@ namespace Mqtt2InfluxDb
                 .Build();
 
             var mqttFactory = new MqttFactory();
+            
+            
+            Console.WriteLine("Connecting to Mqtt-Server " + config.GetSection("Mqtt:ServerUri").Value);
 
             using (var managedMqttClient = mqttFactory.CreateManagedMqttClient())
             {
@@ -31,6 +34,9 @@ namespace Mqtt2InfluxDb
                 var managedMqttClientOptions = new ManagedMqttClientOptionsBuilder()
                     .WithClientOptions(mqttClientOptions)
                     .Build();
+                
+                
+                Console.WriteLine("Connecting to InfluxDB-Server " + config.GetSection("InfluxDb:ServerUri").Value);
 
                 var influxDbClient = InfluxDBClientFactory.Create(config.GetSection("InfluxDb:ServerUri").Value, config.GetSection("InfluxDb:Token").Value);
                 var org = config.GetSection("InfluxDb:Org").Value;
