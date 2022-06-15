@@ -4,7 +4,6 @@ using InfluxDB.Client.Api.Domain;
 using Microsoft.Extensions.Configuration;
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using System.Text;
 
@@ -36,12 +35,13 @@ namespace Mqtt2InfluxDb
 
                 var writeApiAsync = influxDbClient.GetWriteApiAsync();
 
-                managedMqttClient.UseApplicationMessageReceivedHandler(e =>
+                managedMqttClient.ApplicationMessageReceivedAsync += e =>
                 {
                     var line = e.ApplicationMessage.Topic + " value=" + Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
                     //Console.WriteLine(line);
                     writeApiAsync.WriteRecordAsync(line, WritePrecision.Ns, bucket, org);
-                });
+                    return Task.CompletedTask;
+                };
 
                 managedMqttClient.StartAsync(managedMqttClientOptions);
 
