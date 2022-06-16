@@ -92,3 +92,16 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
       #  run: cosign sign ${{ steps.meta.outputs.tags }}@${{ steps.build-and-push.outputs.digest }}
+      
+      - name: Generate XML SBOM
+        uses: CycloneDX/gh-dotnet-generate-sbom@v1
+        with:
+          path: ./CycloneDX.sln
+          github-bearer-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate JSON SBOM
+        uses: CycloneDX/gh-dotnet-generate-sbom@master
+        with:
+          path: ./CycloneDX.sln
+          json: true
+          github-bearer-token: ${{ secrets.GITHUB_TOKEN }}
