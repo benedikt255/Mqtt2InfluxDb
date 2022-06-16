@@ -102,29 +102,11 @@ jobs:
           path: ./Mqtt2InfluxDb.sln
           json: true
           github-bearer-token: ${{ secrets.GITHUB_TOKEN }}
-          
-          
-      - run:   |
-           upload_url=$(curl -sL https://api.github.com/repos/actions/checkout/releases/latest | jq -r '.upload_url')
-           echo UPLOAD_URL=$upload_url >> $GITHUB_ENV
-        shell: bash
-
-      - uses: actions/upload-release-asset@v1 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  
+      - name: publish artifacts
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ./bom.xml
-          asset_name: bom.xml
-          asset_content_type: application/xml
-          
-      - name: Upload Release Asset   
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ env.UPLOAD_URL }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./bom.json
-          asset_name: bom.json
-          asset_content_type: application/json
+          files: |
+            bom.xml
+            bom.json
