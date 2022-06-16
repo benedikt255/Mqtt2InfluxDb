@@ -96,12 +96,23 @@ jobs:
       - name: Generate XML SBOM
         uses: CycloneDX/gh-dotnet-generate-sbom@v1
         with:
-          path: ./CycloneDX.sln
+          path: ./Mqtt2InfluxDb.sln
           github-bearer-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate JSON SBOM
         uses: CycloneDX/gh-dotnet-generate-sbom@master
         with:
-          path: ./CycloneDX.sln
+          path: ./Mqtt2InfluxDb.sln
           json: true
           github-bearer-token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./bom.json
+          asset_name: bom.json
+          asset_content_type: application/json
