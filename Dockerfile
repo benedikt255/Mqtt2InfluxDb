@@ -1,15 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+
+
+FROM debian:stable-slim
 WORKDIR /app
 
-# Copy everything
-COPY . ./
-# Restore as distinct layers
-RUN dotnet restore
-# Build and publish a release
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime:6.0
-WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "Mqtt2InfluxDb.dll"]
+ARG execfile=target/release
+ADD $execfile/Mqtt2InfluxDb Mqtt2InfluxDb
+RUN chmod +x Mqtt2InfluxDb
+CMD ["./Mqtt2InfluxDb"]

@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'Mqtt2InfluxDb'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=Mqtt2InfluxDb",
+                    "--package=Mqtt2InfluxDb"
+                ],
+                "filter": {
+                    "name": "Mqtt2InfluxDb",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'Mqtt2InfluxDb'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=Mqtt2InfluxDb",
+                    "--package=Mqtt2InfluxDb"
+                ],
+                "filter": {
+                    "name": "Mqtt2InfluxDb",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
