@@ -8,12 +8,10 @@ use std::io::BufReader;
 use std::str;
 use std::time::{Duration};
 use std::thread;
-use tokio;
 
 use crate::config::{ConfigData};
 
 const DFLT_CLIENT:&str = "Mqtt2InfluxDb";
-const QOS:QoS = QoS::AtMostOnce;
 
 #[tokio::main]
 async fn main() {
